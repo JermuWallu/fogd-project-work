@@ -1,0 +1,30 @@
+[gd_scene load_steps=8 format=3 uid="uid://regsob88xmmw"]
+
+[ext_resource type="Script" uid="uid://bgswjian8yy31" path="res://scripts/audio.gd" id="1_gbuoc"]
+[ext_resource type="AudioStream" uid="uid://dnxtaapfqad1i" path="res://assets/audio/jump.wav" id="1_h7n6e"]
+[ext_resource type="AudioStream" uid="uid://baa07lh4lexrc" path="res://assets/audio/walk.wav" id="2_2cufa"]
+[ext_resource type="AudioStream" uid="uid://djmkb0do6jwa4" path="res://assets/audio/blowmaybe.wav" id="5_papl6"]
+[ext_resource type="AudioStream" uid="uid://by0aaxipnrcy1" path="res://assets/audio/bleiup.wav" id="5_phxb6"]
+[ext_resource type="AudioStream" uid="uid://blfifbbqba8k3" path="res://assets/audio/maailmavoipalaa.wav" id="5_xfn6e"]
+[ext_resource type="AudioStream" uid="uid://g37ddwp6fnri" path="res://assets/audio/bubblewobble.wav" id="6_secl3"]
+
+[node name="Audio" type="Node2D"]
+script = ExtResource("1_gbuoc")
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_xfn6e")
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_h7n6e")
+
+[node name="Walk" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_2cufa")
+
+[node name="Punch" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_phxb6")
+
+[node name="BubblePop" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_papl6")
+
+[node name="BubbleMove" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_secl3")
