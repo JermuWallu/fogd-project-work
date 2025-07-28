@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djrilc3jladvr"
-path="res://.godot/imported/hud_spritesheet.png-6404542b82ad8cdbd5a2128fc05acd78.ctex"
+uid="uid://fo55aoynr30a"
+path="res://.godot/imported/enemies_spritesheet.png-b367d5a760c3094d88723bfad39bcfa5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/hud_spritesheet.png"
-dest_files=["res://.godot/imported/hud_spritesheet.png-6404542b82ad8cdbd5a2128fc05acd78.ctex"]
+source_file="res://Assets/spritesheets/enemies_spritesheet.png"
+dest_files=["res://.godot/imported/enemies_spritesheet.png-b367d5a760c3094d88723bfad39bcfa5.ctex"]
 
 [params]
 
