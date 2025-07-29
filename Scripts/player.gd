@@ -15,13 +15,25 @@ var isHurt = false
 var powerup_enabled = false
 var powerup_active = false
 var powerup_on_cooldown = false
+var input_disabled = false
 
 # Get the gravity from the project settings so you can sync with rigid body nodes.
 var gravity_multiplier = 1.0  # Used to reverse gravity
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+func _ready():
+	# Connect to global player death signal
+	if Global.has_signal("player_died"):
+		Global.player_died.connect(_on_player_died)
+
+func _on_player_died():
+	input_disabled = true
+	sprite.play("hurt")  # Show hurt animation when dead
+
 
 func _physics_process(delta: float) -> void:
+	if input_disabled:
+		return
 	handleInput(delta)
 	velocity.y += gravity * gravity_multiplier * mass * delta
 	move_and_slide()
@@ -48,7 +60,6 @@ func handleInput(delta: float):
 	# Handle Powerup activation
 	if Input.is_action_just_pressed("powerup"):
 		activate_powerup()
-
 
 func handle_animation():
 

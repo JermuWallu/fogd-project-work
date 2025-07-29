@@ -8,7 +8,7 @@
 size = Vector2(85, 36)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_killbox"]
-size = Vector2(68.25, 15)
+size = Vector2(66.125, 15)
 
 [node name="Enemy" type="RigidBody2D" groups=["Enemies"]]
 gravity_scale = 0.0
@@ -30,7 +30,7 @@ frame_progress = 0.601254
 [node name="Killbox" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killbox"]
-position = Vector2(0, -18)
+position = Vector2(0, -24)
 shape = SubResource("RectangleShape2D_killbox")
 
 [node name="Audio" parent="." instance=ExtResource("3_afpow")]
