@@ -5,7 +5,7 @@ class_name Player extends CharacterBody2D
 
 @export var speed = 600.0
 @export var jump_speed = -1000
-@export var mass: float = 2.3 # abstract value to dampen the floatiness in jump 
+@export var mass: float = 2.3 # abstract value to dampen the floatiness in jump
 @export var acceleration = 5000
 @export var deceleration = 7000
 
@@ -16,10 +16,10 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _physics_process(delta: float) -> void:
 	handleInput(delta)
-	velocity.y += gravity * mass * delta 
+	velocity.y += gravity * mass * delta
 	move_and_slide()
 	handle_animation(delta)
-	
+
 func handleInput(delta: float):
 	# Handle horizontal movement
 	if Input.is_action_pressed("left"):
@@ -35,16 +35,16 @@ func handleInput(delta: float):
 		sprite.play("jump")
 		audio.playJump()
 		velocity.y = jump_speed
-		
-		
+
+
 func handle_animation(delta: float):
-	
+
 	# Handle sprite side
 	if velocity.x < 0:
 		sprite.flip_h = true
 	else:
 		sprite.flip_h = false
-		
+
 	# Handle animations except jump
 	if isHurt:
 		sprite.play("hurt")
@@ -54,3 +54,16 @@ func handle_animation(delta: float):
 		sprite.play("walk")
 	else:
 		sprite.play("idle")
+
+func take_damage():
+	"""Handle player taking damage"""
+	if not isHurt:  # Prevent damage spam
+		isHurt = true
+		sprite.play("hurt")
+		if audio.has_method("playHurt"):
+			audio.playHurt() 
+
+		# Reset hurt state after animation
+		# TODO: add kockback effect
+		await get_tree().create_timer(0.5).timeout
+		isHurt = false

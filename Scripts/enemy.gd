@@ -1,0 +1,115 @@
+extends RigidBody2D
+
+@onready var sprite = $AnimatedSprite2D
+@onready var collision_shape = $CollisionShape2D
+@onready var killbox = $Killbox
+@onready var audio = $AudioPlayer
+
+@export var movement_speed: int = 300
+@export var detection_range: int = 600
+@export var view_range: int = 1000 # Range at which the enemy can see the player
+
+var is_dying: bool = false
+var player_node: Node2D = null
+
+enum EnemyState {
+	IDLE,
+	CHASE,
+	DYING
+}
+
+var current_state: EnemyState = EnemyState.IDLE
+
+func _ready():
+	# Initialize hitboxes ()
+	self.body_entered.connect(_on_hitbox_body_entered)
+	killbox.body_entered.connect(_on_killbox_body_entered)
+
+	# Find player node
+	player_node = get_tree().get_first_node_in_group("Player")
+
+func _physics_process(delta):
+	if is_dying:
+		return
+
+	match current_state:
+		EnemyState.IDLE:
+			handle_idle_state()
+		EnemyState.CHASE:
+			handle_chase_state(delta)
+
+func handle_idle_state():
+	# Check if player is in detection range
+	if player_node and global_position.distance_to(player_node.global_position) <= detection_range:
+		current_state = EnemyState.CHASE
+		sprite.play("walk")
+
+func handle_chase_state(delta):
+	# Chase the player
+	if player_node:
+		var direction = (player_node.global_position - global_position).normalized()
+		linear_velocity = direction * movement_speed * delta
+
+		# Flip sprite based on direction
+		if direction.x > 0:
+			sprite.flip_h = true
+		else:
+			sprite.flip_h = false
+
+		# If player gets too far, go back to idle
+		if global_position.distance_to(player_node.global_position) > view_range:
+			current_state = EnemyState.IDLE
+			linear_velocity = Vector2.ZERO
+			sprite.play("idle")
+
+func _on_hitbox_body_entered(body):
+	if is_dying:
+		return
+
+	if body.is_in_group("Player"):
+		# TODO: Add knockback to player and enemy
+		print("Player hit by enemy - taking damage!")
+		Global.damage_player(1)
+
+func _on_killbox_body_entered(body):
+	if body.is_in_group("Player") and not is_dying:
+		print("Enemy squashed by player!")
+		squash_enemy()
+
+func squash_enemy():
+	is_dying = true
+	current_state = EnemyState.DYING # Useless atm
+
+	# Stop all movement
+	linear_velocity = Vector2.ZERO
+	gravity_scale = 0
+	sprite.play("squashed")
+
+	disable_all_hitboxes()
+
+	# Wait 1 second then destroy enemy
+	await get_tree().create_timer(1.0).timeout
+	die()
+
+func disable_all_hitboxes():
+	# check due to crashes
+	if collision_shape:
+		collision_shape.set_deferred("disabled", true)
+
+	if killbox:
+		killbox.set_deferred("monitoring", false)
+		killbox.set_deferred("monitorable", false)
+
+func die():
+	print("Enemy destroyed!")
+
+	# Todo: Play death sound
+	if audio and audio.has_method("playDeath"):
+		audio.playDeath()
+
+	# Remove from scene
+	queue_free()
+
+func take_damage():
+	if not is_dying and not is_dying:
+		squash_enemy()

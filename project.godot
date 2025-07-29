@@ -14,10 +14,19 @@ config/name="FoGD Project work"
 run/main_scene="uid://dxbm7p73421ff"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
+[autoload]
+
+Global="*res://Scripts/global.gd"
+
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+
+[global_group]
+
+Player=""
+Enemies=""
 
 [input]
 

@@ -1,3 +1,31 @@
-[gd_scene format=3 uid="uid://dllj4teihou3a"]
+[gd_scene load_steps=6 format=3 uid="uid://dllj4teihou3a"]
 
-[node name="Enemy" type="RigidBody2D"]
+[ext_resource type="Script" uid="uid://72gdw5fr0dh7" path="res://Scripts/enemy.gd" id="1_3x8v9"]
+[ext_resource type="Script" uid="uid://fgtjq4urclju" path="res://Scripts/audio.gd" id="1_hghv2"]
+[ext_resource type="SpriteFrames" uid="uid://chk1dk1te8fgy" path="res://Assets/spriteframes/enemy_sprite_frames.tres" id="2_1f0kj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_afpow"]
+size = Vector2(40, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_killbox"]
+size = Vector2(30, 15)
+
+[node name="Enemy" type="RigidBody2D" groups=["Enemies"]]
+script = ExtResource("1_3x8v9")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_afpow")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_1f0kj")
+
+[node name="Killbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Killbox"]
+position = Vector2(0, -18)
+shape = SubResource("RectangleShape2D_killbox")
+
+[node name="AudioPlayer" type="Node2D" parent="."]
+script = ExtResource("1_hghv2")
+metadata/_custom_type_script = "uid://fgtjq4urclju"
