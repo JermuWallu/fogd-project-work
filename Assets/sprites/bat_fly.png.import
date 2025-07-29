@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://412sdvot4jb4"
-path="res://.godot/imported/slimeBlue_dead.png-d4692c3b561d18e2b860dfbd5a408c80.ctex"
+uid="uid://54453nrwvrdu"
+path="res://.godot/imported/bat_fly.png-f64c28ca976abb3d5bd8295a8edcaf79.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/slimeBlue_dead.png"
-dest_files=["res://.godot/imported/slimeBlue_dead.png-d4692c3b561d18e2b860dfbd5a408c80.ctex"]
+source_file="res://Assets/sprites/bat_fly.png"
+dest_files=["res://.godot/imported/bat_fly.png-f64c28ca976abb3d5bd8295a8edcaf79.ctex"]
 
 [params]
 

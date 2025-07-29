@@ -3,7 +3,8 @@ extends RigidBody2D
 @onready var sprite = $AnimatedSprite2D
 @onready var collision_shape = $CollisionShape2D
 @onready var killbox = $Killbox
-@onready var audio = $AudioPlayer
+
+@onready var audio = $Audio
 
 @export var movement_speed: int = 300
 @export var detection_range: int = 600
@@ -22,9 +23,13 @@ var current_state: EnemyState = EnemyState.IDLE
 
 func _ready():
 	# Initialize hitboxes ()
+	# RigidBody2D uses body_entered signal through contact monitoring
+	self.contact_monitor = true
+	self.max_contacts_reported = 10
 	self.body_entered.connect(_on_hitbox_body_entered)
 	killbox.body_entered.connect(_on_killbox_body_entered)
 
+	sprite.play("hang")
 	# Find player node
 	player_node = get_tree().get_first_node_in_group("Player")
 
@@ -42,7 +47,7 @@ func handle_idle_state():
 	# Check if player is in detection range
 	if player_node and global_position.distance_to(player_node.global_position) <= detection_range:
 		current_state = EnemyState.CHASE
-		sprite.play("walk")
+		sprite.play("hang")
 
 func handle_chase_state(delta):
 	# Chase the player
@@ -56,34 +61,48 @@ func handle_chase_state(delta):
 		else:
 			sprite.flip_h = false
 
+		# Only play the fly animation and sound if not already playing
+		if sprite.animation != "fly":
+			sprite.play("fly")
+			audio.startFly()
+
 		# If player gets too far, go back to idle
 		if global_position.distance_to(player_node.global_position) > view_range:
 			current_state = EnemyState.IDLE
 			linear_velocity = Vector2.ZERO
-			sprite.play("idle")
+			sprite.play("hang")
+			audio.stopFly()
 
 func _on_hitbox_body_entered(body):
 	if is_dying:
 		return
-
 	if body.is_in_group("Player"):
-		# TODO: Add knockback to player and enemy
+		# Calculate knockback direction from enemy to player
+		var knockback_direction = (body.global_position - global_position).normalized()
+
 		print("Player hit by enemy - taking damage!")
 		Global.damage_player(1)
+		body.take_damage(knockback_direction)
 
 func _on_killbox_body_entered(body):
 	if body.is_in_group("Player") and not is_dying:
 		print("Enemy squashed by player!")
+		# Give player a little bounce for successful enemy kill
+		if body.has_method("apply_bounce"):
+			body.apply_bounce()
+
 		squash_enemy()
 
 func squash_enemy():
 	is_dying = true
 	current_state = EnemyState.DYING # Useless atm
 
-	# Stop all movement
+	# Stop all movement and sounds
 	linear_velocity = Vector2.ZERO
 	gravity_scale = 0
 	sprite.play("squashed")
+	audio.stopFly()
+	audio.playSquashed()
 
 	disable_all_hitboxes()
 
@@ -102,14 +121,4 @@ func disable_all_hitboxes():
 
 func die():
 	print("Enemy destroyed!")
-
-	# Todo: Play death sound
-	if audio and audio.has_method("playDeath"):
-		audio.playDeath()
-
-	# Remove from scene
 	queue_free()
-
-func take_damage():
-	if not is_dying and not is_dying:
-		squash_enemy()

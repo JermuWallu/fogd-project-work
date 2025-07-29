@@ -1,24 +1,31 @@
 [gd_scene load_steps=6 format=3 uid="uid://dllj4teihou3a"]
 
 [ext_resource type="Script" uid="uid://72gdw5fr0dh7" path="res://Scripts/enemy.gd" id="1_3x8v9"]
-[ext_resource type="Script" uid="uid://fgtjq4urclju" path="res://Scripts/audio.gd" id="1_hghv2"]
 [ext_resource type="SpriteFrames" uid="uid://chk1dk1te8fgy" path="res://Assets/spriteframes/enemy_sprite_frames.tres" id="2_1f0kj"]
+[ext_resource type="PackedScene" uid="uid://regsob88xmmw" path="res://Scenes/audio.tscn" id="3_afpow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_afpow"]
-size = Vector2(40, 32)
+size = Vector2(85, 36)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_killbox"]
-size = Vector2(30, 15)
+size = Vector2(68.25, 15)
 
 [node name="Enemy" type="RigidBody2D" groups=["Enemies"]]
+gravity_scale = 0.0
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 10
 script = ExtResource("1_3x8v9")
+movement_speed = 10000
+detection_range = 800
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_afpow")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_1f0kj")
+animation = &"fly"
+frame_progress = 0.601254
 
 [node name="Killbox" type="Area2D" parent="."]
 
@@ -26,6 +33,6 @@ sprite_frames = ExtResource("2_1f0kj")
 position = Vector2(0, -18)
 shape = SubResource("RectangleShape2D_killbox")
 
-[node name="AudioPlayer" type="Node2D" parent="."]
-script = ExtResource("1_hghv2")
-metadata/_custom_type_script = "uid://fgtjq4urclju"
+[node name="Audio" parent="." instance=ExtResource("3_afpow")]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

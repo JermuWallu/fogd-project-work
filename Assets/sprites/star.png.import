@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmxuob1fn6m8g"
-path="res://.godot/imported/slimeBlue_squashed.png-8443e0ed0a6232e10cfcabe51939e897.ctex"
+uid="uid://rqfj6qc6myp3"
+path="res://.godot/imported/star.png-107ac3b87f1b374ee0ddf36794af737a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/slimeBlue_squashed.png"
-dest_files=["res://.godot/imported/slimeBlue_squashed.png-8443e0ed0a6232e10cfcabe51939e897.ctex"]
+source_file="res://Assets/sprites/star.png"
+dest_files=["res://.godot/imported/star.png-107ac3b87f1b374ee0ddf36794af737a.ctex"]
 
 [params]
 

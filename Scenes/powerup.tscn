@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://beexv28mx6uls"]
+
+[ext_resource type="Texture2D" uid="uid://rqfj6qc6myp3" path="res://Assets/sprites/star.png" id="1_85oov"]
+[ext_resource type="Script" uid="uid://6w1j5umwnwcg" path="res://Scripts/powerup.gd" id="1_dkaad"]
+[ext_resource type="AudioStream" uid="uid://b4gbc4tnhkbwx" path="res://Assets/audio/powerup.wav" id="3_f1g1t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dkaad"]
+radius = 19.0263
+
+[node name="Powerup" type="Area2D" groups=["Powerup"]]
+script = ExtResource("1_dkaad")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_85oov")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dkaad")
+
+[node name="Powerup" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_f1g1t")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwqix40yuogmi"
-path="res://.godot/imported/slimeBlue_squashed.png-71464a8f1fc02648e1ca76ea3256366a.ctex"
+uid="uid://djrilc3jladvr"
+path="res://.godot/imported/hud_spritesheet.png-18a3a5124bf21d35e2068f36b9418f38.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scripts/slimeBlue_squashed.png"
-dest_files=["res://.godot/imported/slimeBlue_squashed.png-71464a8f1fc02648e1ca76ea3256366a.ctex"]
+source_file="res://Assets/sprites/hud_spritesheet.png"
+dest_files=["res://.godot/imported/hud_spritesheet.png-18a3a5124bf21d35e2068f36b9418f38.ctex"]
 
 [params]
 

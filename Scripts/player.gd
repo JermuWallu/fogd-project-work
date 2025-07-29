@@ -5,22 +5,30 @@ class_name Player extends CharacterBody2D
 
 @export var speed = 600.0
 @export var jump_speed = -1000
-@export var mass: float = 2.3 # abstract value to dampen the floatiness in jump
+@export var mass: float = 2.3
 @export var acceleration = 5000
 @export var deceleration = 7000
+@export var knockback_force = 2000.0
+@export var knockback_up_force = -1000
 
 var isHurt = false
+var powerup_enabled = false
+var powerup_active = false
+var powerup_on_cooldown = false
 
 # Get the gravity from the project settings so you can sync with rigid body nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var gravity_multiplier = 1.0  # Used to reverse gravity
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * gravity_multiplier
+
 
 func _physics_process(delta: float) -> void:
 	handleInput(delta)
 	velocity.y += gravity * mass * delta
 	move_and_slide()
-	handle_animation(delta)
+	handle_animation()
 
 func handleInput(delta: float):
+
 	# Handle horizontal movement
 	if Input.is_action_pressed("left"):
 		velocity.x = move_toward(velocity.x, -speed, acceleration * delta)
@@ -31,39 +39,115 @@ func handleInput(delta: float):
 		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
 
 	# Handle Jump
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	var floor_check = is_on_floor() if gravity_multiplier > 0 else is_on_ceiling()
+	if Input.is_action_just_pressed("jump") and floor_check:
 		sprite.play("jump")
 		audio.playJump()
-		velocity.y = jump_speed
+		velocity.y = jump_speed * gravity_multiplier
+
+	# Handle Powerup activation
+	if Input.is_action_just_pressed("powerup"):
+		activate_powerup()
 
 
-func handle_animation(delta: float):
+func handle_animation():
 
 	# Handle sprite side
 	if velocity.x < 0:
 		sprite.flip_h = true
-	else:
+	elif velocity.x > 0:
 		sprite.flip_h = false
 
 	# Handle animations except jump
 	if isHurt:
 		sprite.play("hurt")
-	elif !is_on_floor():
+	elif (gravity_multiplier > 0 and !is_on_floor()) or (gravity_multiplier < 0 and !is_on_ceiling()):
 		sprite.play("jump")
 	elif velocity.x != 0:
 		sprite.play("walk")
 	else:
 		sprite.play("idle")
 
-func take_damage():
-	"""Handle player taking damage"""
+	# Flip sprite vertically when gravity is reversed
+	if gravity_multiplier < 0:
+		sprite.flip_v = true
+	else:
+		sprite.flip_v = false
+
+func take_damage(knockback_direction: Vector2 = Vector2.ZERO):
+
 	if not isHurt:  # Prevent damage spam
 		isHurt = true
+		disable_powerup()
 		sprite.play("hurt")
 		if audio.has_method("playHurt"):
-			audio.playHurt() 
+			audio.playHurt()
+
+		# Apply knockback if direction is provided
+		if knockback_direction != Vector2.ZERO:
+			apply_knockback(knockback_direction)
 
 		# Reset hurt state after animation
-		# TODO: add kockback effect
 		await get_tree().create_timer(0.5).timeout
 		isHurt = false
+
+func apply_knockback(direction: Vector2):
+
+	# Apply horizontal knockback
+	velocity.x = direction.x * knockback_force
+
+	# Add some upward force for better feel
+	velocity.y = knockback_up_force * gravity_multiplier
+
+	print("Knockback applied: ", direction)
+
+func enable_powerup():
+
+	powerup_enabled = true
+	print("Powerup enabled! Press powerup key to activate.")
+
+	# Visual feedback for having powerup available
+	sprite.modulate = Color.YELLOW
+
+func activate_powerup():
+
+	if not powerup_enabled:
+		print("No powerup available!")
+		return
+
+	if powerup_on_cooldown:
+		print("Powerup on cooldown!")
+		return
+
+	if powerup_active:
+		print("Powerup already active!")
+		return
+
+	print("Powerup activated! Gravity reversed for 5 seconds.")
+	powerup_active = true
+	gravity_multiplier = -1.0  # Reverse gravity
+
+	sprite.modulate = Color.CYAN
+	# Disable powerup after 5 seconds
+	await get_tree().create_timer(5.0).timeout
+	deactivate_powerup()
+
+func deactivate_powerup():
+
+	print("Powerup deactivated!")
+	powerup_active = false
+	gravity_multiplier = 1.0
+
+	# Start cooldown
+	powerup_on_cooldown = true
+	sprite.modulate = Color.RED
+
+	# End cooldown after 5 seconds
+	await get_tree().create_timer(5.0).timeout
+	powerup_on_cooldown = false
+	sprite.modulate = Color.CYAN
+	print("Powerup cooldown finished!")
+
+func is_powerup_available() -> bool:
+
+	return powerup_enabled and not powerup_on_cooldown and not powerup_active

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djrilc3jladvr"
-path="res://.godot/imported/hud_spritesheet.png-9a62f82cd2be040029752e723c3796fb.ctex"
+uid="uid://c2h1qt7ocrrvk"
+path="res://.godot/imported/bat_hang.png-2f26d8e7bbd82b801aabaab3e53314ab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/spritesheets/hud_spritesheet.png"
-dest_files=["res://.godot/imported/hud_spritesheet.png-9a62f82cd2be040029752e723c3796fb.ctex"]
+source_file="res://Assets/sprites/bat_hang.png"
+dest_files=["res://.godot/imported/bat_hang.png-2f26d8e7bbd82b801aabaab3e53314ab.ctex"]
 
 [params]
 
