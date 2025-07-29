@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=4 uid="uid://xmnckaee4ljt"]
+[gd_scene load_steps=5 format=4 uid="uid://xmnckaee4ljt"]
 
 [ext_resource type="TileSet" uid="uid://cn8ipirbgxvn7" path="res://Assets/tilesets/tiles_map.tres" id="1_otnlh"]
 [ext_resource type="PackedScene" uid="uid://dllj4teihou3a" path="res://Scenes/movables/enemy.tscn" id="2_pvrk4"]
 [ext_resource type="PackedScene" uid="uid://beexv28mx6uls" path="res://Scenes/movables/powerup.tscn" id="3_a8w1j"]
+[ext_resource type="PackedScene" uid="uid://dwx8bgbb18w41" path="res://Scenes/movables/spikes.tscn" id="4_pvrk4"]
 
-[node name="Level" type="Node2D"]
+[node name="Level_test" type="Node2D"]
 
 [node name="TileMapLayer_background" type="TileMapLayer" parent="."]
 z_index = -3
@@ -21,3 +22,6 @@ position = Vector2(1427, 852)
 
 [node name="Powerup" parent="." instance=ExtResource("3_a8w1j")]
 position = Vector2(1689, 436)
+
+[node name="Spikes" parent="." instance=ExtResource("4_pvrk4")]
+position = Vector2(1590, 909)

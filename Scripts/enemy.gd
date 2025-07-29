@@ -128,7 +128,7 @@ func _on_killbox_body_entered(body):
 
 func squash_enemy():
 	is_dying = true
-	current_state = EnemyState.DYING # Useless atm
+	current_state = EnemyState.DYING # Useless atm due to is_dying
 
 	# Stop all movement and sounds
 	linear_velocity = Vector2.ZERO

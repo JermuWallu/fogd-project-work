@@ -8,7 +8,7 @@ class_name Player extends CharacterBody2D
 @export var mass: float = 2.3
 @export var acceleration = 5000
 @export var deceleration = 7000
-@export var knockback_force = 2000.0
+@export var knockback_force = 1500.0
 @export var knockback_up_force = -1000
 
 var isHurt = false
@@ -165,3 +165,26 @@ func deactivate_powerup():
 	powerup_on_cooldown = false
 	print("Powerup cooldown finished!")
 	enable_powerup()
+
+func reset_player_state():
+	print("Resetting player state...")
+	# Reset velocity
+	velocity = Vector2.ZERO
+	
+	# Reset powerup states
+	powerup_enabled = false
+	powerup_active = false
+	powerup_on_cooldown = false
+	
+	# Reset gravity
+	gravity_multiplier = 1.0
+	
+	# Reset hurt state
+	isHurt = false
+	
+	# Re-enable input
+	input_disabled = false
+	
+	# Reset sprite to normal color and animation
+	sprite.modulate = Color.WHITE
+	sprite.play("idle")

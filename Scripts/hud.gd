@@ -12,6 +12,7 @@ var heart_icons: Array[TextureRect] = []
 var max_health: int = 3
 var current_health: int = 3
 var is_player_dead: bool = false
+var timer_label: Label
 
 func _ready():
 	# Connect to global health signals
@@ -21,6 +22,7 @@ func _ready():
 		Global.player_died.connect(_on_player_died)
 
 	restart_button.pressed.connect(_on_restart_button_pressed)
+	quit_button.pressed.connect(_on_quit_button_pressed)
 
 	max_health = Global.max_hp
 	current_health = Global.get_player_hp()
@@ -30,6 +32,32 @@ func _ready():
 	# Ensure death screen is hidden initially
 	death_screen.visible = false
 	is_player_dead = false
+
+	# Create timer display
+	create_timer_display()
+
+func create_timer_display():
+	timer_label = Label.new()
+	timer_label.text = "Time: 0:00.00"
+	timer_label.position = Vector2(20, 80)  # Below health hearts
+
+	var timer_settings = LabelSettings.new()
+	timer_settings.font_size = 24
+	timer_settings.font_color = Color.WHITE
+	timer_label.label_settings = timer_settings
+
+	$UI.add_child(timer_label)
+
+func _process(_delta):
+	# Update timer display
+	if timer_label and Global.timer_running:
+		var current_time = Global.get_current_score()
+		timer_label.text = "Time: " + format_time(current_time)
+
+func format_time(seconds: float) -> String:
+	var minutes = int(seconds / 60)
+	var remaining_seconds = int(seconds) % 60
+	return "%d:%02d" % [minutes, remaining_seconds]
 
 func create_heart_icons():
 	for heart in heart_icons:
@@ -86,3 +114,9 @@ func _on_restart_button_pressed():
 	Global.reset_player_health()
 	get_tree().paused = false
 	get_tree().reload_current_scene()
+
+func _on_quit_button_pressed():
+	print("Quit button pressed!")
+	Global.reset_player_health()
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")

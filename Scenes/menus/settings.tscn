@@ -63,9 +63,27 @@ custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "50"
 
+[node name="HighScoreContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HighScoreLabel" type="Label" parent="CenterContainer/VBoxContainer/HighScoreContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "High Score:"
+
+[node name="HighScoreValueLabel" type="Label" parent="CenterContainer/VBoxContainer/HighScoreContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "0"
+
 [node name="Spacer2" type="Control" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "Reset to Default"
 
 [node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 50)

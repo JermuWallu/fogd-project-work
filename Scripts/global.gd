@@ -4,12 +4,18 @@ extends Node
 # This script can be used to manage game state, player health, etc.
 var player_hp: int = 3
 var max_hp: int = 3
-var music_volume: float
-var sfx_volume: float
+var music_volume: float = 0.5 # default value
 var high_score: float
+
+# Timer variables
+var current_score: int = 0
+var timer_running: bool = false
+var timer_start_time: int = 0
 
 signal player_health_changed(new_hp: int)
 signal player_died()
+signal level_completed()
+signal game_completed(score: float)
 
 func _ready():
 	player_hp = max_hp
@@ -97,6 +103,10 @@ func set_high_score(score: float):
 		high_score = score
 		print("New high score set: ", high_score)
 
+func reset_high_score():
+	high_score = 0.0
+	print("High score reset to 0")
+
 func set_music_volume(volume: float):
 	if volume < 0.0 or volume > 1.0:
 		print("Volume must be between 0.0 and 1.0")
@@ -107,3 +117,40 @@ func set_music_volume(volume: float):
 	# Update the audio bus with the new volume
 	var db_value = linear_to_db(music_volume)
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), db_value)
+
+# Timer functions for high score tracking
+func start_timer():
+	if not timer_running:
+		timer_start_time = Time.get_ticks_msec()
+		timer_running = true
+		current_score = 0
+		print("Timer started!")
+
+func get_current_score() -> float:
+	if timer_running:
+		var current_time = Time.get_ticks_msec()
+		current_score = current_time - timer_start_time
+	return current_score
+
+func stop_timer() -> float:
+	if timer_running:
+		var current_time = Time.get_ticks_msec()
+		current_score = current_time - timer_start_time
+		timer_running = false
+		print("Timer stopped! Final score: ", current_score)
+
+		# Check for new high score (lower time is better)
+		if current_score < high_score or high_score == 0.0:
+			set_high_score(current_score)
+
+		game_completed.emit(current_score)
+		return current_score
+	return current_score
+
+func reset_timer():
+	timer_running = false
+	current_score = 0
+	print("Timer reset!")
+
+func is_new_high_score() -> bool:
+	return current_score < high_score or high_score == 0.0
