@@ -1,13 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://dmaleg34y85mb"]
+[gd_scene load_steps=7 format=3 uid="uid://dmaleg34y85mb"]
 
 [ext_resource type="Script" uid="uid://w2vcvkdyqcqo" path="res://Scripts/game.gd" id="1_3dryh"]
 [ext_resource type="PackedScene" uid="uid://d2rrcbm7rabpj" path="res://Scenes/movables/Player.tscn" id="2_qxrlw"]
 [ext_resource type="PackedScene" uid="uid://regsob88xmmw" path="res://Scenes/audio.tscn" id="4_wowpa"]
 [ext_resource type="PackedScene" uid="uid://bpcbxjl0n1xii" path="res://Scenes/hud.tscn" id="5_hud"]
-[ext_resource type="PackedScene" uid="uid://wckivdd0bixm" path="res://Scenes/levels/level_template.tscn" id="5_wowpa"]
+[ext_resource type="PackedScene" uid="uid://wckivdd0bixm" path="res://Scenes/levels/level_1.tscn" id="5_wowpa"]
+[ext_resource type="PackedScene" uid="uid://beexv28mx6uls" path="res://Scenes/movables/powerup.tscn" id="6_i6g32"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3dryh")
+
+[node name="Level_current" type="Node2D" parent="."]
+
+[node name="Level_1" parent="Level_current" instance=ExtResource("5_wowpa")]
 
 [node name="Audio" parent="." instance=ExtResource("4_wowpa")]
 
@@ -17,6 +22,5 @@ process_mode = 3
 [node name="Player" parent="." instance=ExtResource("2_qxrlw")]
 position = Vector2(244, 141)
 
-[node name="level" type="Node2D" parent="."]
-
-[node name="Level1" parent="level" instance=ExtResource("5_wowpa")]
+[node name="Powerup" parent="." instance=ExtResource("6_i6g32")]
+position = Vector2(1082, 283)

@@ -74,3 +74,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 text = "RESTART"
+
+[node name="QuitButton" type="Button" parent="UI/DeathScreen/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "MAIN MENU"

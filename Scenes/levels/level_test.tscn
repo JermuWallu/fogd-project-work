@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dllj4teihou3a" path="res://Scenes/movables/enemy.tscn" id="2_pvrk4"]
 [ext_resource type="PackedScene" uid="uid://beexv28mx6uls" path="res://Scenes/movables/powerup.tscn" id="3_a8w1j"]
 
-[node name="Level1" type="Node2D"]
+[node name="Level" type="Node2D"]
 
 [node name="TileMapLayer_background" type="TileMapLayer" parent="."]
 z_index = -3
