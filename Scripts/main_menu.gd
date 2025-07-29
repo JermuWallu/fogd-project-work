@@ -15,7 +15,7 @@ func _on_play_button_pressed():
 
 func _on_settings_button_pressed():
 	print("Settings button pressed!")
-	get_tree().change_scene_to_file("res://Scenes/settings.tscn")
+	get_tree().change_scene_to_file("res://Scenes/menus/settings.tscn")
 
 func _on_quit_button_pressed():
 	print("Quit button pressed!")

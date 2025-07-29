@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=4 uid="uid://cfimok50kpm20"]
 
 [ext_resource type="TileSet" uid="uid://cn8ipirbgxvn7" path="res://Assets/tilesets/tiles_map.tres" id="1_xjf3j"]
-[ext_resource type="Script" uid="uid://c6ssaq2rringy" path="res://Scripts/level_final.gd" id="2_level_final"]
+[ext_resource type="Script" path="res://Scripts/level_final.gd" id="2_level_final"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("2_level_final")
