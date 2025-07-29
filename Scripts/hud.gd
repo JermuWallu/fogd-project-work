@@ -99,6 +99,7 @@ func animate_health_change():
 func _on_player_died():
 	print("Player died! Showing death screen.")
 	is_player_dead = true
+	Global.timer_running = false
 	show_death_screen()
 
 func show_death_screen():
@@ -119,4 +120,4 @@ func _on_quit_button_pressed():
 	print("Quit button pressed!")
 	Global.reset_player_health()
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://Scenes/menus/main_menu.tscn")
