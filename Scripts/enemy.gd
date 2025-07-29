@@ -8,20 +8,26 @@ extends RigidBody2D
 
 @export var movement_speed: int = 300
 @export var detection_range: int = 600
-@export var view_range: int = 1000 # Range at which the enemy can see the player
+@export var view_range: int = 800 # Range at which the enemy can see the player
+@export var spawn_return_threshold: float = 20.0 # How close to spawn before going idle
 
 var is_dying: bool = false
 var player_node: Node2D = null
+var spawn_coords: Vector2
 
 enum EnemyState {
 	IDLE,
 	CHASE,
+	RETURN_TO_SPAWN,
 	DYING
 }
 
 var current_state: EnemyState = EnemyState.IDLE
 
 func _ready():
+	# Store spawn coordinates
+	spawn_coords = global_position
+
 	# Initialize hitboxes ()
 	# RigidBody2D uses body_entered signal through contact monitoring
 	self.contact_monitor = true
@@ -42,6 +48,8 @@ func _physics_process(delta):
 			handle_idle_state()
 		EnemyState.CHASE:
 			handle_chase_state(delta)
+		EnemyState.RETURN_TO_SPAWN:
+			handle_return_to_spawn_state(delta)
 
 func handle_idle_state():
 	# Check if player is in detection range
@@ -66,12 +74,37 @@ func handle_chase_state(delta):
 			sprite.play("fly")
 			audio.startFly()
 
-		# If player gets too far, go back to idle
+		# If player gets too far, return to spawn instead of going idle
 		if global_position.distance_to(player_node.global_position) > view_range:
-			current_state = EnemyState.IDLE
-			linear_velocity = Vector2.ZERO
-			sprite.play("hang")
-			audio.stopFly()
+			current_state = EnemyState.RETURN_TO_SPAWN
+			print("Player out of range, returning to spawn")
+
+func handle_return_to_spawn_state(delta):
+	var distance_to_spawn = global_position.distance_to(spawn_coords)
+
+	# Check if we've reached spawn (within a small threshold)
+	if distance_to_spawn < spawn_return_threshold:
+		current_state = EnemyState.IDLE
+		linear_velocity = Vector2.ZERO
+		sprite.play("hang")
+		audio.stopFly()
+		print("Reached spawn, going idle")
+		return
+
+	# Fly towards spawn coordinates
+	var direction_to_spawn = (spawn_coords - global_position).normalized()
+	linear_velocity = direction_to_spawn * movement_speed * delta
+
+	# Flip sprite based on direction
+	if direction_to_spawn.x > 0:
+		sprite.flip_h = true
+	else:
+		sprite.flip_h = false
+
+	# Only play the fly animation and sound if not already playing
+	if sprite.animation != "fly":
+		sprite.play("fly")
+		audio.startFly()
 
 func _on_hitbox_body_entered(body):
 	if is_dying:

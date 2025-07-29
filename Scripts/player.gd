@@ -18,12 +18,12 @@ var powerup_on_cooldown = false
 
 # Get the gravity from the project settings so you can sync with rigid body nodes.
 var gravity_multiplier = 1.0  # Used to reverse gravity
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * gravity_multiplier
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func _physics_process(delta: float) -> void:
 	handleInput(delta)
-	velocity.y += gravity * mass * delta
+	velocity.y += gravity * gravity_multiplier * mass * delta
 	move_and_slide()
 	handle_animation()
 
@@ -78,8 +78,13 @@ func take_damage(knockback_direction: Vector2 = Vector2.ZERO):
 
 	if not isHurt:  # Prevent damage spam
 		isHurt = true
-		disable_powerup()
 		sprite.play("hurt")
+		# different visuals if powerup
+		if powerup_active:
+			deactivate_powerup()
+		else:
+			sprite.modulate = Color.DARK_RED
+
 		if audio.has_method("playHurt"):
 			audio.playHurt()
 
@@ -90,6 +95,8 @@ func take_damage(knockback_direction: Vector2 = Vector2.ZERO):
 		# Reset hurt state after animation
 		await get_tree().create_timer(0.5).timeout
 		isHurt = false
+		if sprite.modulate == Color.DARK_RED:
+			sprite.modulate = Color.WHITE
 
 func apply_knockback(direction: Vector2):
 
@@ -107,7 +114,7 @@ func enable_powerup():
 	print("Powerup enabled! Press powerup key to activate.")
 
 	# Visual feedback for having powerup available
-	sprite.modulate = Color.YELLOW
+	sprite.modulate = Color.AQUA
 
 func activate_powerup():
 
@@ -140,14 +147,10 @@ func deactivate_powerup():
 
 	# Start cooldown
 	powerup_on_cooldown = true
-	sprite.modulate = Color.RED
+	sprite.modulate = Color.ORANGE_RED
 
 	# End cooldown after 5 seconds
 	await get_tree().create_timer(5.0).timeout
 	powerup_on_cooldown = false
-	sprite.modulate = Color.CYAN
 	print("Powerup cooldown finished!")
-
-func is_powerup_available() -> bool:
-
-	return powerup_enabled and not powerup_on_cooldown and not powerup_active
+	enable_powerup()
