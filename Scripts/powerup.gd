@@ -27,7 +27,6 @@ func disappear():
 	# Disable collision to prevent multiple triggers
 	collision_shape.set_deferred("disabled", true)
 
-	# Optional: Add disappear animation/effect
 	var tween = create_tween()
 	tween.parallel().tween_property(self, "scale", Vector2.ZERO, 0.3)
 	tween.parallel().tween_property(self, "modulate:a", 0.0, 0.3)
