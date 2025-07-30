@@ -86,9 +86,12 @@ func handle_animation():
 		sprite.flip_v = false
 
 func take_damage(knockback_direction: Vector2 = Vector2.ZERO):
-
 	if not isHurt:  # Prevent damage spam
 		isHurt = true
+		
+		# Actually damage the player through Global system
+		Global.damage_player(1)
+		
 		sprite.play("hurt")
 		# different visuals if powerup
 		if powerup_active:
@@ -103,8 +106,8 @@ func take_damage(knockback_direction: Vector2 = Vector2.ZERO):
 		if knockback_direction != Vector2.ZERO:
 			apply_knockback(knockback_direction)
 
-		# Reset hurt state after animation
-		await get_tree().create_timer(1).timeout
+		# Reset hurt state after animation (provides immunity frames)
+		await get_tree().create_timer(1.0).timeout
 		isHurt = false
 		if sprite.modulate == Color.DARK_RED:
 			sprite.modulate = Color.WHITE
