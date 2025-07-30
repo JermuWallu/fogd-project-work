@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://dmaleg34y85mb"]
+[gd_scene load_steps=7 format=3 uid="uid://dmaleg34y85mb"]
 
 [ext_resource type="Script" uid="uid://w2vcvkdyqcqo" path="res://Scripts/game.gd" id="1_3dryh"]
-[ext_resource type="PackedScene" uid="uid://wckivdd0bixm" path="res://Scenes/levels/level_1.tscn" id="2_i6g32"]
 [ext_resource type="PackedScene" uid="uid://d2rrcbm7rabpj" path="res://Scenes/movables/Player.tscn" id="2_qxrlw"]
 [ext_resource type="PackedScene" uid="uid://regsob88xmmw" path="res://Scenes/audio.tscn" id="4_wowpa"]
 [ext_resource type="PackedScene" uid="uid://bpcbxjl0n1xii" path="res://Scenes/hud.tscn" id="5_hud"]
@@ -16,15 +15,12 @@ script = ExtResource("1_3dryh")
 
 [node name="Level_current" type="Node2D" parent="."]
 
-[node name="Level_1" parent="Level_current" instance=ExtResource("2_i6g32")]
-
 [node name="Audio" parent="." instance=ExtResource("4_wowpa")]
 
 [node name="HUD" parent="." instance=ExtResource("5_hud")]
 process_mode = 3
 
 [node name="Player" parent="." instance=ExtResource("2_qxrlw")]
-position = Vector2(137, 155)
 
 [node name="AdvanceTrigger" type="Area2D" parent="."]
 position = Vector2(1868, 231)

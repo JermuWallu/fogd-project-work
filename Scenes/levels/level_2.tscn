@@ -25,7 +25,7 @@ tile_set = ExtResource("1_tjgfl")
 position = Vector2(126, 180)
 
 [node name="AdvancePoint" type="Node2D" parent="."]
-position = Vector2(875, 237)
+position = Vector2(888, 232)
 
 [node name="Movables" type="Node2D" parent="."]
 

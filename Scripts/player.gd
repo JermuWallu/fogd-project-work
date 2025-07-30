@@ -148,9 +148,10 @@ func activate_powerup():
 	sprite.modulate = Color.CYAN
 	# Disable powerup after 5 seconds
 	await get_tree().create_timer(5.0).timeout
-	deactivate_powerup()
+	if powerup_active:
+		deactivate_powerup()
 
-func deactivate_powerup():
+func deactivate_powerup() -> void:
 
 	print("Powerup deactivated!")
 	powerup_active = false
@@ -164,27 +165,28 @@ func deactivate_powerup():
 	await get_tree().create_timer(5.0).timeout
 	powerup_on_cooldown = false
 	print("Powerup cooldown finished!")
-	enable_powerup()
+	if powerup_enabled:
+		enable_powerup()
 
 func reset_player_state():
 	print("Resetting player state...")
 	# Reset velocity
 	velocity = Vector2.ZERO
-	
+
 	# Reset powerup states
 	powerup_enabled = false
 	powerup_active = false
 	powerup_on_cooldown = false
-	
+
 	# Reset gravity
 	gravity_multiplier = 1.0
-	
+
 	# Reset hurt state
 	isHurt = false
-	
+
 	# Re-enable input
 	input_disabled = false
-	
+
 	# Reset sprite to normal color and animation
 	sprite.modulate = Color.WHITE
 	sprite.play("idle")
