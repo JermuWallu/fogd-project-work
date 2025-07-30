@@ -38,7 +38,7 @@ func _ready():
 
 func create_timer_display():
 	timer_label = Label.new()
-	timer_label.text = "Time: 0:00.00"
+	timer_label.text = "Time: 00:00.000"
 	timer_label.position = Vector2(20, 80)  # Below health hearts
 
 	var timer_settings = LabelSettings.new()
@@ -54,10 +54,12 @@ func _process(_delta):
 		var current_time = Global.get_current_score()
 		timer_label.text = "Time: " + format_time(current_time)
 
-func format_time(seconds: float) -> String:
-	var minutes = int(seconds / 60)
-	var remaining_seconds = int(seconds) % 60
-	return "%d:%02d" % [minutes, remaining_seconds]
+func format_time(milliseconds: float) -> String:
+	var total_seconds = milliseconds / 1000.0
+	var minutes = int(total_seconds) / 60
+	var seconds = int(total_seconds) % 60
+	var ms = int(milliseconds) % 1000
+	return "%02d:%02d.%03d" % [minutes, seconds, ms]
 
 func create_heart_icons():
 	for heart in heart_icons:

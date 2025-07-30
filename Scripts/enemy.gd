@@ -114,7 +114,7 @@ func _on_hitbox_body_entered(body):
 		var knockback_direction = (body.global_position - global_position).normalized()
 
 		print("Player hit by enemy - taking damage!")
-		Global.damage_player(1)
+		# Only call player's take_damage, which now handles Global.damage_player internally
 		body.take_damage(knockback_direction)
 
 func _on_killbox_body_entered(body):

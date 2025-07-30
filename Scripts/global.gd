@@ -138,11 +138,6 @@ func stop_timer() -> float:
 		current_score = current_time - timer_start_time
 		timer_running = false
 		print("Timer stopped! Final score: ", current_score)
-
-		# Check for new high score (lower time is better)
-		if current_score < high_score or high_score == 0.0:
-			set_high_score(current_score)
-
 		game_completed.emit(current_score)
 		return current_score
 	return current_score

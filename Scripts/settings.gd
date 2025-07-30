@@ -21,8 +21,15 @@ func load_settings():
 	music_slider.value = Global.music_volume * 100 # this calls _on_music_volume_changed
 	update_high_score_display()
 
+func format_time(milliseconds: float) -> String:
+	var total_seconds = milliseconds / 1000.0
+	var minutes = int(total_seconds) / 60
+	var seconds = int(total_seconds) % 60
+	var ms = int(milliseconds) % 1000
+	return "%02d:%02d.%03d" % [minutes, seconds, ms]
+
 func update_high_score_display():
-	high_score_value_label.text = str(int(Global.get_high_score()))
+	high_score_value_label.text = format_time(Global.get_high_score())
 
 func _on_music_volume_changed(value: int):
 	print("Music volume set to: ", value)
