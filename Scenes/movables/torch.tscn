@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://bnak3l8n4o5p6"]
+
+[ext_resource type="Script" uid="uid://swee3uvng7w6" path="res://Scripts/torch.gd" id="1_yduus"]
+[ext_resource type="Texture2D" uid="uid://bwo1sc4luyou2" path="res://Assets/sprites/tochLit.png" id="2_efrye"]
+[ext_resource type="Texture2D" uid="uid://d2b51fgtus1vs" path="res://Assets/sprites/tochLit2.png" id="3_qmmqr"]
+[ext_resource type="Texture2D" uid="uid://ce4ohprnl3yvl" path="res://Assets/2d_lights_and_shadows_neutral_point_light.webp" id="4_t5a7j"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kg6dd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_efrye")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_qmmqr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Torch" type="Node2D"]
+script = ExtResource("1_yduus")
+
+[node name="TorchSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_kg6dd")
+frame = 1
+frame_progress = 0.405782
+
+[node name="TorchLight" type="PointLight2D" parent="."]
+color = Color(1, 0.765161, 0.614394, 1)
+shadow_enabled = true
+texture = ExtResource("4_t5a7j")
+texture_scale = 5.0
