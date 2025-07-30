@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://cod7nm7xcadk5"]
+[gd_scene load_steps=6 format=4 uid="uid://cod7nm7xcadk5"]
 
 [ext_resource type="TileSet" uid="uid://cn8ipirbgxvn7" path="res://Assets/tilesets/tiles_map.tres" id="1_tjgfl"]
 [ext_resource type="PackedScene" uid="uid://dllj4teihou3a" path="res://Scenes/movables/enemy.tscn" id="2_mb2fk"]
 [ext_resource type="PackedScene" uid="uid://dwx8bgbb18w41" path="res://Scenes/movables/spikes.tscn" id="3_peptx"]
 [ext_resource type="PackedScene" uid="uid://beexv28mx6uls" path="res://Scenes/movables/powerup.tscn" id="4_rsv82"]
+[ext_resource type="PackedScene" uid="uid://bnak3l8n4o5p6" path="res://Scenes/torch.tscn" id="5_peptx"]
 
 [node name="Level1" type="Node2D"]
 
@@ -97,3 +98,15 @@ position = Vector2(886, 389)
 
 [node name="Powerup" parent="Movables" instance=ExtResource("4_rsv82")]
 position = Vector2(1775, 628)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 0.768627)
+
+[node name="Torch" parent="." instance=ExtResource("5_peptx")]
+position = Vector2(328, 526)
+
+[node name="Torch2" parent="." instance=ExtResource("5_peptx")]
+position = Vector2(879, 130)
+
+[node name="Torch3" parent="." instance=ExtResource("5_peptx")]
+position = Vector2(1640, 554)
