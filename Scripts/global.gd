@@ -14,7 +14,6 @@ var timer_start_time: int = 0
 
 signal player_health_changed(new_hp: int)
 signal player_died()
-signal level_completed()
 signal game_completed(score: float)
 
 func _ready():
@@ -23,14 +22,14 @@ func _ready():
 
 func damage_player(damage: int = 1):
 	player_hp = max(0, player_hp - damage)
+	player_health_changed.emit(player_hp)
 
 	if player_hp <= 0:
 		player_died.emit()
 		get_tree().paused = true
 		print("Player died!")
-		#TODO: handle game over logic here
 
-func heal_player(heal_amount:   = 1):
+func heal_player(heal_amount: int = 1):
 	print("Healing player by: ", heal_amount)
 	if heal_amount < 0:
 		print("Heal amount must be positive!")
@@ -39,6 +38,7 @@ func heal_player(heal_amount:   = 1):
 		print("Healing player by: ", heal_amount)
 
 	player_hp = min(max_hp, player_hp + heal_amount)
+	player_health_changed.emit(player_hp)
 
 func reset_player_health():
 	print("Resetting player health to max")

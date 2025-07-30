@@ -104,7 +104,7 @@ func take_damage(knockback_direction: Vector2 = Vector2.ZERO):
 			apply_knockback(knockback_direction)
 
 		# Reset hurt state after animation
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(1).timeout
 		isHurt = false
 		if sprite.modulate == Color.DARK_RED:
 			sprite.modulate = Color.WHITE
